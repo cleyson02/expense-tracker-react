@@ -15,7 +15,6 @@ export const Title = styled.h2`
   margin-bottom: 10px;
 `;
 
-// Tabela
 export const Table = styled.table`
   width: 100%;
   background-color: #FFF;
@@ -23,11 +22,10 @@ export const Table = styled.table`
   box-shadow: 0px 0px 5px #CCC;
   border-radius: 10px;
   margin-top: 20px;
-  border-collapse: collapse; /* Melhora o layout da tabela */
-  margin-bottom: 20px; /* Adiciona o espaço entre a tabela e o botão */
+  border-collapse: collapse;
+  margin-bottom: 20px;
 `;
 
-// Cabeçalhos da tabela
 export const TableHeadColumn = styled.th<{ width?: number }>`
   width: ${props => props.width ? `${props.width}px` : 'auto'};
   padding: 10px 0;
@@ -36,22 +34,19 @@ export const TableHeadColumn = styled.th<{ width?: number }>`
   border-bottom: 2px solid #CCC;
 `;
 
-// Linhas de dados da tabela
 export const TableRow = styled.tr`
   border-bottom: 1px solid #EEE;
 `;
 
-// Células de dados da tabela
 export const TableData = styled.td`
   padding: 10px 0;
   text-align: left;
-  padding-left: 20px; /* Adiciona o espaçamento à esquerda para o nome */
+  padding-left: 20px;
 `;
 
-// Informações com valor formatado
 export const Info = styled.div<{ color?: string }>`
   font-size: 1.2rem;
   font-weight: bold;
   color: ${props => props.color || 'black'};
-  margin-top: 5px;  // Adiciona um pequeno espaçamento entre o título e a informação
+  margin-top: 5px;
 `;

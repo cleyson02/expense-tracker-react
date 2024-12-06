@@ -1,6 +1,6 @@
 import { Person } from '../../types/Person';
 import { Item } from '../../types/Item';
-import { categories } from '../../data/categories'; // Supondo que categories está nesse arquivo
+import { categories } from '../../data/categories';
 import * as C from './styles';
 import { ResumeItem } from '../ResumeItem';
 
@@ -16,14 +16,13 @@ export const PersonSummary = ({ personList, transactions }: Props) => {
 
     transactions.forEach(item => {
       if (item.personId === personId) {
-        const category = categories[item.category]; // Obtém a categoria da transação
+        const category = categories[item.category];
 
-        // Verifica se a categoria existe e se é uma despesa ou receita
         if (category) {
           if (category.expense) {
-            expense += item.value; // Se for despesa
+            expense += item.value;
           } else {
-            income += item.value; // Se for receita
+            income += item.value;
           }
         }
       }

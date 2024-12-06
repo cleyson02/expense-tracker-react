@@ -14,9 +14,9 @@ import { PersonArea } from './components/PersonArea';
 import { PersonSummary } from './components/PersonSummary';
 
 const App = () => {
-  const [list, setList] = useState<Item[]>(items); // Lista de transações
+  const [list, setList] = useState<Item[]>(items);
   const [filteredList, setFilteredList] = useState<Item[]>([]);
-  const [personList, setPersonList] = useState<Person[]>(persons); // Lista de pessoas
+  const [personList, setPersonList] = useState<Person[]>(persons);
   const [currentMonth, setCurrentMonth] = useState(getCurrentMonth());
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
@@ -78,7 +78,7 @@ const App = () => {
           onAddPerson={handleAddPerson}
           onDeletePerson={handleDeletePerson}
         />
-        
+
         {/* Formulário para adicionar transações */}
         <InputArea onAdd={handleAddItem} personList={personList}
         />

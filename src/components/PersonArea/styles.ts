@@ -7,13 +7,13 @@ export const Container = styled.div`
   padding: 20px;
   margin-top: 20px;
   display: flex;
-  flex-direction: column; /* Coloca os elementos em coluna */
-  align-items: flex-start; /* Alinha à esquerda */
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const InputLabel = styled.label`
   width: 100%;
-  margin: 10px 0; /* Adiciona espaçamento entre os campos */
+  margin: 10px 0;
 `;
 
 export const InputTitle = styled.div`
@@ -22,14 +22,14 @@ export const InputTitle = styled.div`
 `;
 
 export const Input = styled.input`
-  width: 100%; /* O input ocupa 100% da largura do seu container */
-  max-width: 500px; /* Limita a largura do input */
+  width: 100%;
+  max-width: 500px;
   height: 30px;
   padding: 0 10px;
   border: 1px solid lightblue;
   border-radius: 5px;
-  margin-left: auto; /* Centraliza o input dentro do seu container */
-  margin-right: auto; /* Centraliza o input dentro do seu container */
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 15px;
 `;
 
@@ -42,7 +42,7 @@ export const Button = styled.button`
   background-color: lightblue;
   color: black;
   cursor: pointer;
-  margin-top: 20px; /* Espaço entre o botão e a lista de pessoas */
+  margin-top: 20px;
 
   &:hover {
     background-color: blue;

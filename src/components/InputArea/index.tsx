@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as C from './styles';
 import { Item } from '../../types/Item';
 import { categories } from '../../data/categories';
@@ -15,17 +15,36 @@ export const InputArea = ({ onAdd, personList }: Props) => {
   const [categoryField, setCategoryField] = useState('');
   const [titleField, setTitleField] = useState('');
   const [valueField, setValueField] = useState(0);
-  const [personId, setPersonId] = useState<number | ''>(''); // Campo para selecionar a pessoa
+  const [personId, setPersonId] = useState<number | ''>('');
 
   let categoryKeys: string[] = Object.keys(categories);
+
+  const isMinor = (id: number) => {
+    const person = personList.find(person => person.id === id);
+    return person ? person.age < 18 : false;
+  };
+
+  const getAvailableCategories = () => {
+    if (personId === '') return [];
+    if (isMinor(personId as number)) {
+      return categoryKeys.filter(key => categories[key].expense);
+    }
+    return categoryKeys;
+  };
+  useEffect(() => {
+    setCategoryField('');
+  }, [personId]);
 
   const handleAddEvent = () => {
     let errors: string[] = [];
 
+    if (personId === '') {
+      errors.push('Você precisa selecionar uma pessoa!');
+    }
     if (isNaN(new Date(dateField).getTime())) {
       errors.push('Data inválida!');
     }
-    if (!categoryKeys.includes(categoryField)) {
+    if (!getAvailableCategories().includes(categoryField)) {
       errors.push('Categoria inválida!');
     }
     if (titleField === '') {
@@ -33,9 +52,6 @@ export const InputArea = ({ onAdd, personList }: Props) => {
     }
     if (valueField <= 0) {
       errors.push('Valor inválido!');
-    }
-    if (personId === '') {
-      errors.push('Selecione uma pessoa!');
     }
 
     if (errors.length > 0) {
@@ -46,43 +62,23 @@ export const InputArea = ({ onAdd, personList }: Props) => {
         category: categoryField,
         title: titleField,
         value: valueField,
-        personId: personId as number // Vincula a pessoa à transação
+        personId: personId as number
       });
       clearFields();
     }
-  }
+  };
 
   const clearFields = () => {
     setDateField('');
     setCategoryField('');
     setTitleField('');
     setValueField(0);
-    setPersonId(''); // Limpa a seleção de pessoa
-  }
+    setPersonId('');
+  };
 
   return (
     <C.Container>
-      <C.InputLabel>
-        <C.InputTitle>Data</C.InputTitle>
-        <C.Input type="date" value={dateField} onChange={e => setDateField(e.target.value)} />
-      </C.InputLabel>
-      <C.InputLabel>
-        <C.InputTitle>Categoria</C.InputTitle>
-        <C.Select value={categoryField} onChange={e => setCategoryField(e.target.value)}>
-          <option></option>
-          {categoryKeys.map((key, index) => (
-            <option key={index} value={key}>{categories[key].title}</option>
-          ))}
-        </C.Select>
-      </C.InputLabel>
-      <C.InputLabel>
-        <C.InputTitle>Título</C.InputTitle>
-        <C.Input type="text" value={titleField} onChange={e => setTitleField(e.target.value)} />
-      </C.InputLabel>
-      <C.InputLabel>
-        <C.InputTitle>Valor</C.InputTitle>
-        <C.Input type="number" value={valueField} onChange={e => setValueField(parseFloat(e.target.value))} />
-      </C.InputLabel>
+      {/* Seleção da Pessoa */}
       <C.InputLabel>
         <C.InputTitle>Pessoa</C.InputTitle>
         <C.Select value={personId} onChange={e => setPersonId(e.target.value ? parseInt(e.target.value) : '')}>
@@ -94,10 +90,39 @@ export const InputArea = ({ onAdd, personList }: Props) => {
           ))}
         </C.Select>
       </C.InputLabel>
-      <C.InputLabel>
-        <C.InputTitle>&nbsp;</C.InputTitle>
-        <C.Button onClick={handleAddEvent}>Adicionar</C.Button>
-      </C.InputLabel>
+
+      {/* Exibição condicional dos outros campos */}
+      {personId && (
+        <>
+          <C.InputLabel>
+            <C.InputTitle>Data</C.InputTitle>
+            <C.Input type="date" value={dateField} onChange={e => setDateField(e.target.value)} />
+          </C.InputLabel>
+          <C.InputLabel>
+            <C.InputTitle>Categoria</C.InputTitle>
+            <C.Select value={categoryField} onChange={e => setCategoryField(e.target.value)}>
+              <option value="">Selecione uma categoria</option>
+              {getAvailableCategories().map((key, index) => (
+                <option key={index} value={key}>
+                  {categories[key].title}
+                </option>
+              ))}
+            </C.Select>
+          </C.InputLabel>
+          <C.InputLabel>
+            <C.InputTitle>Título</C.InputTitle>
+            <C.Input type="text" value={titleField} onChange={e => setTitleField(e.target.value)} />
+          </C.InputLabel>
+          <C.InputLabel>
+            <C.InputTitle>Valor</C.InputTitle>
+            <C.Input type="number" value={valueField} onChange={e => setValueField(parseFloat(e.target.value))} />
+          </C.InputLabel>
+          <C.InputLabel>
+            <C.InputTitle>&nbsp;</C.InputTitle>
+            <C.Button onClick={handleAddEvent}>Adicionar</C.Button>
+          </C.InputLabel>
+        </>
+      )}
     </C.Container>
   );
 };

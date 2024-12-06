@@ -4,24 +4,23 @@ import * as C from './styles';
 import { PersonItem } from '../PersonItem';
 
 type Props = {
-  personList: Person[]; // Lista de pessoas passada como prop
-  onAddPerson: (person: Person) => void; // Função para adicionar uma pessoa
-  onDeletePerson: (id: number) => void; // Função para deletar uma pessoa
+  personList: Person[];
+  onAddPerson: (person: Person) => void;
+  onDeletePerson: (id: number) => void;
 };
 
 export const PersonArea = ({ personList, onAddPerson, onDeletePerson }: Props) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
 
-  // Função local para adicionar uma nova pessoa
   const handleAddPerson = () => {
     if (name && age) {
       const newPerson: Person = {
-        id: personList.length > 0 ? personList[personList.length - 1].id + 1 : 1, // ID sequencial
+        id: personList.length > 0 ? personList[personList.length - 1].id + 1 : 1,
         name,
         age: parseInt(age),
       };
-      onAddPerson(newPerson); // Chama a função passada pelo App
+      onAddPerson(newPerson);
       setName('');
       setAge('');
     }
@@ -58,7 +57,7 @@ export const PersonArea = ({ personList, onAddPerson, onDeletePerson }: Props) =
           <PersonItem
             key={person.id}
             data={person}
-            onDelete={onDeletePerson} // Usa a função passada pelo App
+            onDelete={onDeletePerson}
           />
         ))}
       </C.ListContainer>
